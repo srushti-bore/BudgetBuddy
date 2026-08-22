@@ -27,12 +27,17 @@ const Budgets = () => {
       setIsLoading(true);
       setError(null);
       const data = await budgetService.getAll();
-      setBudgets(data);
+      const safeData = Array.isArray(data) ? data : [];
+      setBudgets(safeData);
       
       const utils = {};
-      for (const budget of data) {
-        const utilData = await budgetService.getUtilization(budget.id);
-        utils[budget.id] = utilData;
+      for (const budget of safeData) {
+        try {
+          const utilData = await budgetService.getUtilization(budget.id);
+          utils[budget.id] = utilData;
+        } catch (e) {
+          console.warn('Could not fetch utilization for budget', budget.id, e);
+        }
       }
       setUtilizations(utils);
     } catch (err) {

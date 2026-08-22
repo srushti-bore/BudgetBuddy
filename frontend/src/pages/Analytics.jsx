@@ -84,34 +84,34 @@ const Analytics = () => {
   };
 
   // 1. Category Breakdown Data
-  const categories = data.categoryBreakdown || [];
+  const categories = Array.isArray(data?.categoryBreakdown) ? data.categoryBreakdown : [];
   const categoryChartData = {
-    labels: categories.map(c => c.category.replace('_', ' ')),
+    labels: categories.map(c => (c.category || '').replace('_', ' ')),
     datasets: [{
       label: 'Spending by Category',
-      data: categories.map(c => c.amount),
+      data: categories.map(c => c.amount || 0),
       backgroundColor: [
-        '#7d1ec3', // primary
-        '#22c55e', // green
-        '#3b82f6', // blue
-        '#f59e0b', // amber
-        '#ec4899', // pink
-        '#8b5cf6', // purple
-        '#64748b', // slate
+        '#3b82f6',
+        '#22c55e',
+        '#0ea5e9',
+        '#f59e0b',
+        '#ec4899',
+        '#8b5cf6',
+        '#64748b',
       ],
       borderWidth: 0
     }]
   };
 
   // 2. Monthly Trend Data
-  const monthly = (data.monthlyReports || []).slice().reverse();
+  const monthly = Array.isArray(data?.monthlyReports) ? data.monthlyReports.slice().reverse() : [];
   const monthlyChartData = {
-    labels: monthly.map(m => `${m.month.substring(0, 3)} ${m.year}`),
+    labels: monthly.map(m => `${(m.month || '').substring(0, 3)} ${m.year || ''}`),
     datasets: [{
       label: 'Total Monthly Spending (₹)',
-      data: monthly.map(m => m.totalAmount),
-      borderColor: '#7d1ec3',
-      backgroundColor: 'rgba(125, 30, 195, 0.2)',
+      data: monthly.map(m => m.totalAmount || 0),
+      borderColor: '#3b82f6',
+      backgroundColor: 'rgba(59, 130, 246, 0.15)',
       borderWidth: 2,
       fill: true,
       tension: 0.4
