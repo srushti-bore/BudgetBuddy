@@ -161,7 +161,7 @@ const Dashboard = () => {
                   <div key={item.id} className="flex justify-between items-center p-3 bg-muted/40 rounded-lg hover:bg-muted/80 transition-colors">
                     <div>
                       <p className="font-medium text-sm">{item.title}</p>
-                      <p className="text-xs text-muted-foreground">{item.category} • {new Date(item.expenseDate).toLocaleDateString()}</p>
+                      <p className="text-xs text-muted-foreground">{item.category} • {item.expenseDate ? new Date(item.expenseDate).toLocaleDateString() : ''}</p>
                     </div>
                     <span className="font-semibold text-sm numeric text-destructive">
                       -{formatCurrency(item.amount)}
@@ -189,9 +189,9 @@ const Dashboard = () => {
                 <div className="h-[200px] mb-4">
                   <Pie
                     data={{
-                      labels: summary.categoryBreakdown.slice(0, 6).map(c => c.category.replace('_', ' ')),
+                      labels: summary.categoryBreakdown.slice(0, 6).map(c => (c.category || '').replace('_', ' ')),
                       datasets: [{
-                        data: summary.categoryBreakdown.slice(0, 6).map(c => c.amount),
+                        data: summary.categoryBreakdown.slice(0, 6).map(c => c.amount || 0),
                         backgroundColor: CATEGORY_COLORS,
                         borderWidth: 0,
                         hoverOffset: 6
@@ -212,7 +212,11 @@ const Dashboard = () => {
                         },
                         tooltip: {
                           callbacks: {
-                            label: (ctx) => ` ${formatCurrency(ctx.raw)} (${summary.categoryBreakdown[ctx.dataIndex]?.percentage?.toFixed(1)}%)`
+                            label: (ctx) => {
+                              const item = summary?.categoryBreakdown?.[ctx.dataIndex];
+                              const pct = item?.percentage != null ? item.percentage.toFixed(1) : '0.0';
+                              return ` ${formatCurrency(ctx.raw)} (${pct}%)`;
+                            }
                           }
                         }
                       }
@@ -221,17 +225,17 @@ const Dashboard = () => {
                 </div>
                 <div className="space-y-2 mt-2">
                   {summary.categoryBreakdown.slice(0, 4).map((cat, i) => (
-                    <div key={cat.category} className="flex items-center gap-2">
-                      <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: CATEGORY_COLORS[i] }} />
+                    <div key={cat.category || i} className="flex items-center gap-2">
+                      <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: CATEGORY_COLORS[i % CATEGORY_COLORS.length] }} />
                       <div className="flex-1 min-w-0">
                         <div className="flex justify-between text-xs mb-0.5">
-                          <span className="font-medium truncate">{cat.category.replace('_', ' ')}</span>
-                          <span className="text-muted-foreground numeric ml-2">{cat.percentage?.toFixed(1)}%</span>
+                          <span className="font-medium truncate">{(cat.category || '').replace('_', ' ')}</span>
+                          <span className="text-muted-foreground numeric ml-2">{cat.percentage?.toFixed(1) || 0}%</span>
                         </div>
                         <div className="h-1.5 bg-muted rounded-full overflow-hidden">
                           <div
                             className="h-full rounded-full transition-all duration-500"
-                            style={{ width: `${Math.min(cat.percentage || 0, 100)}%`, backgroundColor: CATEGORY_COLORS[i] }}
+                            style={{ width: `${Math.min(cat.percentage || 0, 100)}%`, backgroundColor: CATEGORY_COLORS[i % CATEGORY_COLORS.length] }}
                           />
                         </div>
                       </div>

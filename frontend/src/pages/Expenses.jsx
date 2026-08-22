@@ -45,11 +45,11 @@ const Expenses = () => {
         }
       });
       const data = await expenseService.getAll(params);
-      setExpenses(data.content);
+      setExpenses(data?.content || []);
       setPagination({
-        page: data.page,
-        totalPages: data.totalPages,
-        totalElements: data.totalElements
+        page: data?.page || 0,
+        totalPages: data?.totalPages || 0,
+        totalElements: data?.totalElements || 0
       });
     } catch (err) {
       setError(err.message || 'Failed to load expenses');

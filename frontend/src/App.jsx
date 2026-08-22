@@ -6,23 +6,26 @@ import Expenses from './pages/Expenses';
 import Analytics from './pages/Analytics';
 import Budgets from './pages/Budgets';
 import Toast from './components/common/Toast';
+import ErrorBoundary from './components/common/ErrorBoundary';
 import { AppProvider } from './context/AppContext';
 
 function App() {
   return (
-    <AppProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<MainLayout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="expenses" element={<Expenses />} />
-            <Route path="analytics" element={<Analytics />} />
-            <Route path="budgets" element={<Budgets />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-      <Toast />
-    </AppProvider>
+    <ErrorBoundary>
+      <AppProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<MainLayout />}>
+              <Route index element={<Dashboard />} />
+              <Route path="expenses" element={<Expenses />} />
+              <Route path="analytics" element={<Analytics />} />
+              <Route path="budgets" element={<Budgets />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+        <Toast />
+      </AppProvider>
+    </ErrorBoundary>
   );
 }
 

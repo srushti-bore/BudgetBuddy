@@ -505,12 +505,11 @@
 }
 
 .animate-rise {
-  animation: rise var(--duration-base) var(--ease-standard) forwards;
-  opacity: 0;
+  animation: rise 250ms ease-in-out;
 }
 
 .animate-fade {
-  animation: fade-in var(--duration-fast) var(--ease-standard) forwards;
+  animation: fade-in 150ms ease-in-out;
 }
 
 /* Respect prefers-reduced-motion (§6 guideline) */
