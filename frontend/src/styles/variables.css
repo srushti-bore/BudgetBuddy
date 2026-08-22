@@ -1,0 +1,191 @@
+/* src/styles/variables.css
+   Built strictly from design-system-standard.md
+   ─────────────────────────────────────────────
+   Base palette → semantic tokens
+   Font: Inter (UI/body), Roboto Mono (numeric/data)
+   4px spacing grid | design-system-standard §1–§9
+*/
+
+/* ══════════════════════════════════════
+   Base Palette (§1.1)
+══════════════════════════════════════ */
+:root {
+  --gray-50:  #F9FAFB;
+  --gray-100: #F3F4F6;
+  --gray-200: #E5E7EB;
+  --gray-300: #D1D5DB;
+  --gray-400: #9CA3AF;
+  --gray-500: #6B7280;
+  --gray-600: #4B5563;
+  --gray-700: #374151;
+  --gray-800: #1F2937;
+  --gray-900: #111827;
+  --gray-950: #030712;
+
+  --blue-500: #3B82F6;
+  --blue-600: #2563EB;
+  --green-500: #22C55E;
+  --red-500:   #EF4444;
+  --amber-500: #F59E0B;
+  --sky-500:   #0EA5E9;
+}
+
+/* ══════════════════════════════════════
+   Light Theme — semantic tokens (§1.2)
+   Controlled via [data-theme="light"] or :root
+══════════════════════════════════════ */
+:root,
+[data-theme="light"] {
+  --color-bg:            var(--gray-50);
+  --color-surface:       #FFFFFF;
+  --color-surface-alt:   var(--gray-100);
+  --color-border:        var(--gray-200);
+  --color-text-primary:  var(--gray-900);
+  --color-text-secondary: var(--gray-500);
+  --color-text-disabled: var(--gray-300);
+
+  --color-primary:       var(--blue-500);
+  --color-primary-hover: var(--blue-600);
+  --color-success:       var(--green-500);
+  --color-danger:        var(--red-500);
+  --color-warning:       var(--amber-500);
+  --color-info:          var(--sky-500);
+  --color-focus-ring:    rgba(59, 130, 246, 0.50);
+
+  /* Aliases for legacy code */
+  --color-background:         var(--color-bg);
+  --color-foreground:         var(--color-text-primary);
+  --color-card:               var(--color-surface);
+  --color-card-foreground:    var(--color-text-primary);
+  --color-muted:              var(--color-surface-alt);
+  --color-muted-foreground:   var(--color-text-secondary);
+  --color-destructive:        var(--color-danger);
+  --color-destructive-foreground: #FFFFFF;
+  --color-accent:             var(--blue-500);
+  --color-accent-foreground:  #FFFFFF;
+
+  /* Shadows (§5) */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.08);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,0.10);
+  --shadow-xl: 0 20px 25px rgba(0,0,0,0.12);
+
+  /* Legacy shadow names */
+  --shadow-card:   var(--shadow-sm);
+  --shadow-lifted: var(--shadow-lg);
+
+  /* Chart palette */
+  --chart-1: #3B82F6;
+  --chart-2: #22C55E;
+  --chart-3: #0EA5E9;
+  --chart-4: #F59E0B;
+  --chart-5: #EF4444;
+}
+
+/* ══════════════════════════════════════
+   Dark Theme (§9)
+   Controlled via [data-theme="dark"] or .dark
+══════════════════════════════════════ */
+[data-theme="dark"],
+.dark {
+  --color-bg:            var(--gray-950);
+  --color-surface:       var(--gray-900);
+  --color-surface-alt:   var(--gray-800);
+  --color-border:        var(--gray-700);
+  --color-text-primary:  var(--gray-50);
+  --color-text-secondary: var(--gray-400);
+  --color-text-disabled: var(--gray-600);
+
+  --color-primary:       var(--blue-500);
+  --color-primary-hover: var(--blue-600);
+  --color-success:       var(--green-500);
+  --color-danger:        var(--red-500);
+  --color-warning:       var(--amber-500);
+  --color-info:          var(--sky-500);
+  --color-focus-ring:    rgba(59, 130, 246, 0.60);
+
+  /* Aliases */
+  --color-background:       var(--color-bg);
+  --color-foreground:       var(--color-text-primary);
+  --color-card:             var(--color-surface);
+  --color-card-foreground:  var(--color-text-primary);
+  --color-muted:            var(--color-surface-alt);
+  --color-muted-foreground: var(--color-text-secondary);
+  --color-destructive:      var(--color-danger);
+  --color-destructive-foreground: var(--gray-50);
+  --color-accent:           var(--blue-500);
+  --color-accent-foreground: var(--gray-50);
+
+  /* Shadows (§5) */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.40);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.50);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,0.60);
+  --shadow-xl: 0 20px 25px rgba(0,0,0,0.70);
+
+  --shadow-card:   var(--shadow-sm);
+  --shadow-lifted: var(--shadow-lg);
+
+  --chart-1: #60A5FA;
+  --chart-2: #4ADE80;
+  --chart-3: #38BDF8;
+  --chart-4: #FCD34D;
+  --chart-5: #F87171;
+}
+
+/* ══════════════════════════════════════
+   Spacing — 4px base unit (§3)
+══════════════════════════════════════ */
+:root {
+  --space-0:  0px;
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Legacy */
+  --spacing-1:  var(--space-1);
+  --spacing-2:  var(--space-2);
+  --spacing-3:  var(--space-3);
+  --spacing-4:  var(--space-4);
+  --spacing-5:  var(--space-5);
+  --spacing-6:  var(--space-6);
+  --spacing-8:  var(--space-8);
+
+  /* Border Radius (§4) */
+  --radius-none: 0px;
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius:      8px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-full: 9999px;
+
+  /* Animation (§6) */
+  --ease-standard:  ease-in-out;
+  --ease-smooth:    ease-in-out;
+  --duration-fast:  150ms;
+  --duration-base:  250ms;
+  --duration-slow:  350ms;
+
+  /* Breakpoints (§8) */
+  --bp-sm:  640px;
+  --bp-md:  768px;
+  --bp-lg:  1024px;
+  --bp-xl:  1280px;
+  --bp-2xl: 1536px;
+
+  /* Typography scale (§2.1) */
+  --text-xs:   12px;
+  --text-sm:   14px;
+  --text-base: 16px;
+  --text-lg:   18px;
+  --text-xl:   20px;
+  --text-2xl:  24px;
+  --text-3xl:  30px;
+}
