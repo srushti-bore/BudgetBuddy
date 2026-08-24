@@ -2,12 +2,15 @@
 FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
 
-# Copy pom.xml and pre-fetch dependencies
-COPY pom.xml ./
-RUN mvn dependency:go-offline -B || true
+# Copy build context and dynamically locate pom.xml & src
+COPY . ./context/
+RUN if [ -f ./context/pom.xml ]; then \
+      cp -rf ./context/* ./; \
+    elif [ -f ./context/backend/pom.xml ]; then \
+      cp -rf ./context/backend/* ./; \
+    fi && rm -rf ./context
 
-# Copy source code and build package
-COPY src ./src
+RUN mvn dependency:go-offline -B || true
 RUN mvn clean package -DskipTests
 
 # Runtime stage
