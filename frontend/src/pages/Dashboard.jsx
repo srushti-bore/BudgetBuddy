@@ -99,45 +99,57 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* KPI Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card>
+      {/* KPI Cards Grid — Psychology-backed Color & Visual Hierarchy */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <Card className="hover:border-primary/40 transition-all duration-200 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Total Spending</CardTitle>
-            <IndianRupee className="w-4 h-4 text-muted-foreground" />
+            <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Total Spending</CardTitle>
+            <div className="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+              <IndianRupee className="w-4 h-4" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold numeric">{formatCurrency(summary?.totalSpending)}</div>
+            <div className="text-2xl font-bold numeric text-foreground">{formatCurrency(summary?.totalSpending)}</div>
+            <p className="text-[11px] text-muted-foreground mt-1">Cumulative Outflow</p>
           </CardContent>
         </Card>
         
-        <Card>
+        <Card className="hover:border-emerald-500/40 transition-all duration-200 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">This Month</CardTitle>
-            <TrendingUp className="w-4 h-4 text-primary" />
+            <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">This Month</CardTitle>
+            <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+              <TrendingUp className="w-4 h-4" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold numeric">{formatCurrency(summary?.monthlySpending)}</div>
+            <div className="text-2xl font-bold numeric text-foreground">{formatCurrency(summary?.monthlySpending)}</div>
+            <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium mt-1">Monthly Cycle Active</p>
           </CardContent>
         </Card>
         
-        <Card>
+        <Card className="hover:border-sky-500/40 transition-all duration-200 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">This Week</CardTitle>
-            <TrendingUp className="w-4 h-4 text-primary" />
+            <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">This Week</CardTitle>
+            <div className="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center">
+              <TrendingUp className="w-4 h-4" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold numeric">{formatCurrency(summary?.weeklySpending)}</div>
+            <div className="text-2xl font-bold numeric text-foreground">{formatCurrency(summary?.weeklySpending)}</div>
+            <p className="text-[11px] text-muted-foreground mt-1">7-Day Rolling Total</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:border-amber-500/40 transition-all duration-200 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Today</CardTitle>
-            <ReceiptText className="w-4 h-4 text-muted-foreground" />
+            <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Today</CardTitle>
+            <div className="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+              <ReceiptText className="w-4 h-4" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold numeric">{formatCurrency(summary?.dailySpending)}</div>
+            <div className="text-2xl font-bold numeric text-foreground">{formatCurrency(summary?.dailySpending)}</div>
+            <p className="text-[11px] text-amber-600 dark:text-amber-400 font-medium mt-1">Daily Log</p>
           </CardContent>
         </Card>
       </div>
