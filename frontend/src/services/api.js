@@ -5,7 +5,7 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 15000,
+  timeout: 60000, // 60s timeout to allow Render free tier cold starts (~30s) to finish waking up
 });
 
 api.interceptors.response.use(
@@ -20,8 +20,12 @@ api.interceptors.response.use(
     return response.data;
   },
   (error) => {
+    let msg = error.response?.data?.message || error.message || 'Unable to connect to backend server';
+    if (error.code === 'ECONNABORTED' || error.message?.includes('timeout')) {
+      msg = 'Backend is taking a moment to wake up (Render Free Tier cold start). Please retry in a few seconds.';
+    }
     const customError = {
-      message: error.response?.data?.message || error.message || 'Unable to connect to backend server',
+      message: msg,
       status: error.response?.status,
       data: error.response?.data,
     };
