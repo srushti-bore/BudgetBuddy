@@ -138,12 +138,6 @@ const MainLayout = () => {
           </div>
           
           <div className="flex items-center gap-3">
-            {/* Quick Micro-interaction Action Indicator */}
-            <div className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-muted/60 text-xs font-medium text-muted-foreground border border-border/40">
-              <Sparkles size={14} className="text-amber-500" />
-              <span>Psychology-Backed Budgeting</span>
-            </div>
-
             {/* Theme Toggle Button */}
             <button 
               className="btn btn-ghost btn-icon rounded-xl hover:bg-muted transition-colors" 

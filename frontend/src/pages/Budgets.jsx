@@ -87,33 +87,56 @@ const Budgets = () => {
     ? budgets 
     : budgets.filter(b => b.period === selectedPeriod);
 
+  // Calculate totals for quick summary
+  const totalAllocated = budgets.reduce((acc, b) => acc + (b.amount || 0), 0);
+  const totalSpent = Object.values(utilizations).reduce((acc, u) => acc + (u?.spentAmount || 0), 0);
+  const totalRemaining = totalAllocated - totalSpent;
+
   return (
     <div className="space-y-6 animate-rise">
-      {/* Header */}
+      {/* Page Title Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="display-lg">Budgets</h1>
-          <p className="text-muted-foreground mt-1">Set limits, monitor utilization, and stay on budget.</p>
+          <h1 className="text-2xl font-bold font-sora text-foreground">Budgets & Limits</h1>
+          <p className="text-sm text-muted-foreground mt-0.5">Plan your spending, track limits, and save more each month.</p>
         </div>
-        <Button onClick={() => { setEditingBudget(null); setIsModalOpen(true); }}>
+        <Button onClick={() => { setEditingBudget(null); setIsModalOpen(true); }} className="shadow-sm">
           <Plus size={18} />
-          Create Budget
+          New Budget
         </Button>
       </div>
 
+      {/* Quick Summary Cards for instant overview */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="p-4 rounded-xl bg-card border border-border flex flex-col justify-between">
+          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Total Budget Pool</span>
+          <span className="text-2xl font-bold numeric text-foreground mt-1">{formatCurrency(totalAllocated)}</span>
+        </div>
+        <div className="p-4 rounded-xl bg-card border border-border flex flex-col justify-between">
+          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Total Spent</span>
+          <span className="text-2xl font-bold numeric text-primary mt-1">{formatCurrency(totalSpent)}</span>
+        </div>
+        <div className="p-4 rounded-xl bg-card border border-border flex flex-col justify-between">
+          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Available Remaining</span>
+          <span className={`text-2xl font-bold numeric mt-1 ${totalRemaining < 0 ? 'text-destructive' : 'text-emerald-600 dark:text-emerald-400'}`}>
+            {formatCurrency(totalRemaining)}
+          </span>
+        </div>
+      </div>
+
       {/* Period Filter Tabs */}
-      <div className="flex gap-2 border-b border-border pb-2 overflow-x-auto">
+      <div className="flex gap-2 border-b border-border pb-3 overflow-x-auto">
         {PERIOD_TABS.map(tab => (
           <button
             key={tab}
             onClick={() => setSelectedPeriod(tab)}
-            className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+            className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all ${
               selectedPeriod === tab
-                ? 'bg-primary text-primary-foreground'
-                : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                ? 'bg-primary text-white shadow-sm'
+                : 'text-muted-foreground bg-muted/40 hover:bg-muted hover:text-foreground'
             }`}
           >
-            {tab === 'ALL' ? 'All Periods' : tab.charAt(0) + tab.slice(1).toLowerCase()}
+            {tab === 'ALL' ? 'All Budgets' : `${tab.charAt(0)}${tab.slice(1).toLowerCase()}`}
           </button>
         ))}
       </div>
