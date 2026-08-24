@@ -1,35 +1,41 @@
 package com.budgetbuddy.backend.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 /**
- * Universal CORS configuration supporting Vercel, Render, local dev, and cloud deployments.
+ * Universal CORS configuration — allows all origins, methods, and headers.
+ * Uses CorsFilter (not WebMvcConfigurer) to ensure it runs before Spring Security
+ * and handles OPTIONS preflight correctly on Render + Vercel deployments.
  */
 @Configuration
 public class CorsConfig {
 
-    @Value("${cors.allowed-origins:*}")
-    private String allowedOrigins;
-
     @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                // If specific comma-separated origins are given (e.g. https://my-site.vercel.app), use them; otherwise allow all patterns
-                String[] origins = allowedOrigins.split("\\s*,\\s*");
-                
-                registry.addMapping("/**")
-                        .allowedOriginPatterns(origins.length > 0 && !allowedOrigins.equals("*") ? origins : new String[]{"*"})
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "PATCH")
-                        .allowedHeaders("*")
-                        .allowCredentials(true)
-                        .maxAge(3600);
-            }
-        };
+    public CorsFilter corsFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+
+        // Allow all origins using pattern (compatible with allowCredentials)
+        config.addAllowedOriginPattern("*");
+
+        // Allow all HTTP methods including OPTIONS preflight
+        config.addAllowedMethod("*");
+
+        // Allow all headers
+        config.addAllowedHeader("*");
+
+        // Allow cookies / auth headers
+        config.setAllowCredentials(true);
+
+        // Cache preflight for 1 hour
+        config.setMaxAge(3600L);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+
+        return new CorsFilter(source);
     }
 }
